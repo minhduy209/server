@@ -103,33 +103,95 @@
 			</div>
 		</div>
 	</div>
-<!-- Messenger Plugin chat Code -->
-    <div id="fb-root"></div>
+<script src="https://cdn.jsdelivr.net/mojs/latest/mo.min.js"></script>
+<script>
+const COLORS = {
+  RED:      '#FD5061',
+  YELLOW:   '#FFCEA5',
+  BLACK:    '#29363B',
+  WHITE:    'white',
+  VINOUS:   '#A50710'
+}
 
-    <!-- Your Plugin chat code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
-    </div>
+const burst1 = new mojs.Burst({
+  left: 0, top: 0,
+  count:          8,
+  radius:         { 50: 150 },
+  children: {
+    shape:        'line',
+    stroke:       [ 'white', '#FFE217', '#FC46AD', '#D0D202', '#B8E986', '#D0D202' ],
+    scale:        1,
+    scaleX:       { 1 : 0 },
+    // pathScale:    'rand(.5, 1.25)',
+    degreeShift:  'rand(-90, 90)',
+    radius:       'rand(20, 40)',
+    // duration:     200,
+    delay:        'rand(0, 150)',
+    isForce3d:    true
+  }
+});
 
-    <script>
-      var chatbox = document.getElementById('fb-customer-chat');
-      chatbox.setAttribute("page_id", "106652054338861");
-      chatbox.setAttribute("attribution", "biz_inbox");
+const largeBurst = new mojs.Burst({
+  left: 0, top: 0,
+  count:          4,
+  radius:         0,
+  angle:         45,
+  radius:        { 0: 450  },
+  children: {
+    shape:        'line',
+    stroke:       '#4ACAD9',
+    scale:        1,
+    scaleX:       { 1 : 0 },
+    radius:       100,
+    duration:     450,
+    isForce3d:    true,
+    easing:       'cubic.inout'
+  }
+});
 
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml            : true,
-          version          : 'v12.0'
-        });
-      };
+const CIRCLE_OPTS = {
+  left: 0, top: 0,
+  scale:      { 0: 1 },
+}
 
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    </script>
+const largeCircle = new mojs.Shape({
+  ...CIRCLE_OPTS,
+  fill:       'none',
+  stroke:     'white',
+  strokeWidth: 4,
+  opacity:    { .25 : 0 },
+  radius:     250,
+  duration:   600,
+});
+
+const smallCircle = new mojs.Shape({
+  ...CIRCLE_OPTS,
+  fill:       'white',
+  opacity:    { .5 : 0 },
+  radius:     30,
+});
+  
+document.addEventListener( 'click', function (e) {
+  
+  burst1
+    .tune({ x: e.pageX, y: e.pageY })
+    .generate()
+    .replay();
+  
+  largeBurst
+    .tune({ x: e.pageX, y: e.pageY })
+    .replay();
+  
+  largeCircle
+    .tune({ x: e.pageX, y: e.pageY })
+    .replay();
+  
+  smallCircle
+    .tune({ x: e.pageX, y: e.pageY })
+    .replay();
+  
+});
+</script>
 </body>
 
 </html>
